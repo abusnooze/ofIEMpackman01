@@ -6,7 +6,9 @@ float trueSourceAngle1 = 0; //only to simulate a moving source (needs to be glob
 //--------------------------------------------------------------
 void testApp::setup(){
 
-    vector<ofPoint> cPath;
+    ofPoint micCenter1(400,400);
+    ofPoint micCenter2(400+400,400);
+    int pNum = 70;
 
     /*GUI*/
     //setup UI elements
@@ -24,23 +26,33 @@ void testApp::setup(){
     gui.add(dotRadiusLogo.setup( "logo: radius", 10, 0, 40 ));
     gui.add(gridSpacingLogo.setup( "logo: spacing", 12, 0, 50 ));
 
+    drawGui = 1; //default;
+
 
     ofSetFrameRate(60);
     ofEnableSmoothing();
     ofEnableAlphaBlending();
 
-    ofPoint micCenter(400,400);
-    int pNum = 70;
-    m1.initCloud(micCenter, pNum, hist2Radius);
 
-    cPath.push_back(ofPoint(300,500));
-    cPath.push_back(ofPoint(300,300));
-    cPath.push_back(ofPoint(500,300));
-    cPath.push_back(ofPoint(500,500));
-    m1.setCloudPath(cPath);
-
-
+    /*set up microphone 1*/
+    m1.initCloud(micCenter1, pNum, hist2Radius);
+    vector<ofPoint> cPath1;
+    cPath1.push_back(ofPoint(300,500));
+    cPath1.push_back(ofPoint(300,300));
+    cPath1.push_back(ofPoint(500,300));
+    cPath1.push_back(ofPoint(500,500));
+    m1.setCloudPath(cPath1);
     m1.calcParticlePositions(particleBuddyNum, particleBuddyDistance, particleBuddyShrink);
+
+    /*set up microphone 2*/
+    m2.initCloud(micCenter2, pNum, hist2Radius);
+    vector<ofPoint> cPath2;
+    cPath2.push_back(ofPoint(400+300,500));
+    cPath2.push_back(ofPoint(400+300,300));
+    cPath2.push_back(ofPoint(400+500,300));
+    cPath2.push_back(ofPoint(400+500,500));
+    m2.setCloudPath(cPath2);
+    m2.calcParticlePositions(particleBuddyNum, particleBuddyDistance, particleBuddyShrink);
 
 
 }
@@ -68,6 +80,10 @@ void testApp::update(){
     m1.updateParticleWeights(hist2Radius);
     m1.updateParticleProperties(particleBuddyNum, particleBuddyDistance, particleBuddyShrink, noiseAmount, noiseStep);
 
+    m2.simulateHist(simMeans, simStdDevs);
+    m2.updateParticleWeights(hist2Radius);
+    m2.updateParticleProperties(particleBuddyNum, particleBuddyDistance, particleBuddyShrink, noiseAmount, noiseStep);
+
     logoPos.x = 20;
     logoPos.y = ofGetWindowHeight() - logo.numDotsY*gridSpacingLogo - 20;
     logo.updateDotPos(noiseAmountLogo, noiseStepLogo, dotRadiusLogo, gridSpacingLogo, logoPos);
@@ -84,6 +100,10 @@ void testApp::draw(){
     m1.drawMic();
     m1.drawCloud();
 
+    m2.drawPath();
+    m2.drawMic();
+    m2.drawCloud();
+
     ofSetColor(ofColor::black);
     string fpsStr = "frame rate: "+ofToString(ofGetFrameRate(), 3);
     ofDrawBitmapString(fpsStr, 10,10);
@@ -91,13 +111,22 @@ void testApp::draw(){
     //string fpsStr2 = "frame rate: "+ofToString(ofGetLastFrameTime(), 6);
     //ofDrawBitmapString(fpsStr2, 100,300);
 
-    gui.draw();
+    if (drawGui){
+        gui.draw();
+    }
     logo.draw();
+
 
 }
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
+
+    if (drawGui){
+        drawGui = 0;
+    }else{
+        drawGui = 1;
+    }
 
 }
 

@@ -2699,7 +2699,7 @@
 
 1376288012 source:c:\_mydata\openframeworks_0_8\apps\myapps\ofiempackman01\icon.rc
 
-1392571344 source:c:\_mydata\openframeworks_0_8\apps\myapps\ofiempackman01\src\loccloud.cpp
+1392571604 source:c:\_mydata\openframeworks_0_8\apps\myapps\ofiempackman01\src\loccloud.cpp
 	"locCloud.h"
 
 1392571308 c:\_mydata\openframeworks_0_8\apps\myapps\ofiempackman01\src\loccloud.h
@@ -2713,7 +2713,7 @@
 	"ofMain.h"
 	"testApp.h"
 
-1392571174 c:\_mydata\openframeworks_0_8\apps\myapps\ofiempackman01\src\testapp.h
+1392574217 c:\_mydata\openframeworks_0_8\apps\myapps\ofiempackman01\src\testapp.h
 	"ofMain.h"
 	"ofxGui.h"
 	"locCloud.h"
@@ -2730,9 +2730,8 @@
 	"ofxButton.h"
 	"ofxLabel.h"
 
-1392569850 source:c:\_mydata\openframeworks_0_8\apps\myapps\ofiempackman01\src\testapp.cpp
+1392572481 source:c:\_mydata\openframeworks_0_8\apps\myapps\ofiempackman01\src\testapp.cpp
 	"testApp.h"
-	"locCloud.h"
 
 1392570052 c:\_mydata\openframeworks_0_8\apps\myapps\ofiempackman01\src\iemlogo.h
 	"ofMain.h"

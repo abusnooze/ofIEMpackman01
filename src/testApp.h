@@ -37,7 +37,9 @@ class testApp : public ofBaseApp{
         ofPoint logoPos;
         iemLogo logo;
 
-        locCloud m1;
+        locCloud m1,m2; //I should use a vector of locCloud objects but I'll leave this for now;
+
+        int drawGui;
 
 
 };
