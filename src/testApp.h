@@ -28,6 +28,7 @@ class testApp : public ofBaseApp{
         ofxIntSlider   particleBuddyNum;
         ofxFloatSlider noiseAmount;
         ofxFloatSlider noiseStep;
+        ofxFloatSlider hist2Radius;
         ofxFloatSlider noiseAmountLogo;
         ofxFloatSlider noiseStepLogo;
         ofxFloatSlider dotRadiusLogo;

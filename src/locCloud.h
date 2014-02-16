@@ -10,13 +10,13 @@ class locCloud
         locCloud();
 
         //Methods
-        void initCloud(ofPoint, int);
+        void initCloud(ofPoint micpos, int num, float hist2rFac);
         void calcParticlePositions(int, float, float);
         void setCloudPath(vector<ofPoint>);
         void drawPath();
         void drawMic();
         void drawCloud();
-        void updateParticleWeights();
+        void updateParticleWeights(float hist2R);
         void updateParticleProperties(int, float, float, float, float);
         float eval_norm_pdf(float, float, float);
         int simulateHist(vector<float>, vector<float>);
@@ -28,6 +28,7 @@ class locCloud
         vector<sParticle> particles;
         ofPolyline cloudPath;
         vector<float> doaHist;
+        float histogram2RadiusFactor;
 
 };
 

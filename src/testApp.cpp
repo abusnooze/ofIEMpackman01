@@ -17,6 +17,8 @@ void testApp::setup(){
     gui.add(particleBuddyNum.setup( "particleBuddyNum", 9, 0, 20 ));
     gui.add(noiseAmount.setup( "noiseAmount", 40, 0, 100 ));
     gui.add(noiseStep.setup( "noiseStep", 0.02, 0, 0.4 ));
+    gui.add(hist2Radius.setup( "hist2Radius", 1000, 0, 10000 ));
+
     gui.add(noiseAmountLogo.setup( "logo: noiseAmnt", 4, 0, 100 ));
     gui.add(noiseStepLogo.setup( "logo: noiseStp", 0.02, 0, 0.4 ));
     gui.add(dotRadiusLogo.setup( "logo: radius", 10, 0, 40 ));
@@ -29,7 +31,7 @@ void testApp::setup(){
 
     ofPoint micCenter(400,400);
     int pNum = 70;
-    m1.initCloud(micCenter, pNum);
+    m1.initCloud(micCenter, pNum, hist2Radius);
 
     cPath.push_back(ofPoint(300,500));
     cPath.push_back(ofPoint(300,300));
@@ -63,7 +65,7 @@ void testApp::update(){
     //simStdDevs.push_back(30);
 
     m1.simulateHist(simMeans, simStdDevs);
-    m1.updateParticleWeights();
+    m1.updateParticleWeights(hist2Radius);
     m1.updateParticleProperties(particleBuddyNum, particleBuddyDistance, particleBuddyShrink, noiseAmount, noiseStep);
 
     logoPos.x = 20;

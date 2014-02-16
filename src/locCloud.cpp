@@ -5,12 +5,13 @@ locCloud::locCloud()
     //ctor
 }
 
-void locCloud::initCloud(ofPoint micpos, int num)
+void locCloud::initCloud(ofPoint micpos, int num, float hist2rFac)
 {
 
     micPosition.set(micpos);
     //micPosition.set()
 
+    histogram2RadiusFactor = hist2rFac;
     numParticles = num;
     particles.resize(numParticles);
     doaHist.resize(numParticles);
@@ -53,6 +54,7 @@ void locCloud::drawMic()
     ofCircle(micPosition,10);
 }
 
+/*computing the potential particle positions along the specified path for the given microphone position*/
 void locCloud::calcParticlePositions(int numBuddies, float buddyDist, float buddyShrink)
 {
     ofPoint interSec;
@@ -114,11 +116,12 @@ void locCloud::updateParticleProperties(int numBuddies, float buddyDist, float b
 
 }
 
-void locCloud::updateParticleWeights()
+void locCloud::updateParticleWeights(float hist2R)
 {
+    histogram2RadiusFactor = hist2R;
     for (int i=0; i<numParticles; i++)
     {
-        particles[i].r = 1000*doaHist[i];
+        particles[i].r = histogram2RadiusFactor*doaHist[i];
     }
 
 }
