@@ -20,15 +20,22 @@ class locCloud
         void updateParticleProperties(int, float, float, float, float);
         float eval_norm_pdf(float, float, float);
         int simulateHist(vector<float>, vector<float>);
+        void setupHistMesh(float minRadius);
+        void updateHistMesh(float histAmpFactor, float minRadius);
+        void drawHistMesh();
 
         //Properties
         ofPoint micPosition;
         int numParticles;
+        int histogramSize;
         int numPathLines;
         vector<sParticle> particles;
         ofPolyline cloudPath;
         vector<float> doaHist;
         float histogram2RadiusFactor;
+
+        ofMesh histMesh;
+        float histogramMinRadius;
 
 };
 

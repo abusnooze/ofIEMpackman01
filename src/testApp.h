@@ -33,6 +33,8 @@ class testApp : public ofBaseApp{
         ofxFloatSlider noiseStepLogo;
         ofxFloatSlider dotRadiusLogo;
         ofxFloatSlider gridSpacingLogo;
+        ofxFloatSlider histAmp;
+        ofxFloatSlider histMinR;
 
         ofPoint logoPos;
         iemLogo logo;
@@ -40,6 +42,7 @@ class testApp : public ofBaseApp{
         locCloud m1,m2; //I should use a vector of locCloud objects but I'll leave this for now;
 
         int drawGui;
+        int drawPath;
 
 
 };

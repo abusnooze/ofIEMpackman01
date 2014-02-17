@@ -26,8 +26,11 @@ void testApp::setup(){
     gui.add(dotRadiusLogo.setup( "logo: radius", 10, 0, 40 ));
     gui.add(gridSpacingLogo.setup( "logo: spacing", 12, 0, 50 ));
 
-    drawGui = 1; //default;
+    gui.add(histMinR.setup( "histogram: min R", 20, 0, 150 ));
+    gui.add(histAmp.setup( "histogram: amp", 1000, 0, 10000 ));
 
+    drawGui = 1; //default;
+    drawPath = 0; //default;
 
     ofSetFrameRate(60);
     ofEnableSmoothing();
@@ -43,6 +46,7 @@ void testApp::setup(){
     cPath1.push_back(ofPoint(500,500));
     m1.setCloudPath(cPath1);
     m1.calcParticlePositions(particleBuddyNum, particleBuddyDistance, particleBuddyShrink);
+    m1.setupHistMesh(histMinR);
 
     /*set up microphone 2*/
     m2.initCloud(micCenter2, pNum, hist2Radius);
@@ -73,12 +77,15 @@ void testApp::update(){
     trueSourceAngle1 = ofWrapDegrees(trueSourceAngle1,0,360);
     simMeans.push_back(trueSourceAngle1);
     simStdDevs.push_back(30);
-    //simMeans.push_back(270);
-    //simStdDevs.push_back(30);
+    simMeans.push_back(trueSourceAngle1+180);
+    simStdDevs.push_back(10);
+    simMeans.push_back(trueSourceAngle1+90);
+    simStdDevs.push_back(40);
 
     m1.simulateHist(simMeans, simStdDevs);
     m1.updateParticleWeights(hist2Radius);
     m1.updateParticleProperties(particleBuddyNum, particleBuddyDistance, particleBuddyShrink, noiseAmount, noiseStep);
+    m1.updateHistMesh(histAmp, histMinR);
 
     m2.simulateHist(simMeans, simStdDevs);
     m2.updateParticleWeights(hist2Radius);
@@ -96,11 +103,17 @@ void testApp::draw(){
     ofBackground(ofColor::blue);
     //ofBackgroundGradient(ofColor::white, ofColor::gray);
 
-    m1.drawPath();
+    if (drawPath){
+        m1.drawPath();
+    }
     m1.drawMic();
     m1.drawCloud();
 
-    m2.drawPath();
+    m1.drawHistMesh();
+
+    if (drawPath){
+        m2.drawPath();
+    }
     m2.drawMic();
     m2.drawCloud();
 
@@ -110,6 +123,7 @@ void testApp::draw(){
 
     //string fpsStr2 = "frame rate: "+ofToString(ofGetLastFrameTime(), 6);
     //ofDrawBitmapString(fpsStr2, 100,300);
+
 
     if (drawGui){
         gui.draw();
@@ -122,10 +136,20 @@ void testApp::draw(){
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
 
-    if (drawGui){
-        drawGui = 0;
-    }else{
-        drawGui = 1;
+    if (key=='g'){
+        if (drawGui){
+            drawGui = 0;
+        }else{
+            drawGui = 1;
+        }
+    }
+
+    if (key=='p'){
+        if (drawPath){
+            drawPath = 0;
+        }else{
+            drawPath = 1;
+        }
     }
 
 }

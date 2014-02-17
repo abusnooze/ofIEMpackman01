@@ -13,6 +13,7 @@ void locCloud::initCloud(ofPoint micpos, int num, float hist2rFac)
 
     histogram2RadiusFactor = hist2rFac;
     numParticles = num;
+    histogramSize = num;
     particles.resize(numParticles);
     doaHist.resize(numParticles);
 
@@ -161,7 +162,48 @@ int locCloud::simulateHist(vector<float> nMeans, vector<float> nStdDevs)
     return 0;
 }
 
+void locCloud::setupHistMesh(float minRadius)
+{
+    histogramMinRadius = minRadius;
+    histMesh.setMode(OF_PRIMITIVE_LINE_LOOP);
+    histMesh.enableColors();
 
+    float r = histogramMinRadius;
+    float angle;
+    float dphi = ofDegToRad( 360/histogramSize );
+    for (int i=0; i<histogramSize; ++i)
+    {
+        angle = i*dphi;
+        histMesh.addVertex(ofVec3f(micPosition.x+r*cos(angle),micPosition.y-r*sin(angle),0));
+        histMesh.addColor(ofColor::black);
+    }
+}
+
+void locCloud::updateHistMesh(float histAmpFactor, float minRadius)
+{
+    ofVec3f mic;
+    mic.set(micPosition.x,micPosition.y,0);
+
+    histogramMinRadius = minRadius; //update member variable
+
+    float r;
+    float angle;
+    float dphi = ofDegToRad( 360/histogramSize );
+    for (int i=0; i<histogramSize; ++i)
+    {
+        ofVec3f vert = histMesh.getVertex(i);
+        angle = i*dphi;
+        r = histogramMinRadius + histAmpFactor*doaHist[i];
+        vert = ofVec3f(micPosition.x+r*cos(angle),micPosition.y-r*sin(angle),0);
+        histMesh.setVertex(i, vert);
+    }
+
+}
+
+void locCloud::drawHistMesh()
+{
+    histMesh.draw();
+}
 
 
 
