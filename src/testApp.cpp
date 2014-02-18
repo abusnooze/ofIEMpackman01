@@ -6,6 +6,12 @@ float trueSourceAngle1 = 0; //only to simulate a moving source (needs to be glob
 //--------------------------------------------------------------
 void testApp::setup(){
 
+    /*appearance*/
+    micCol = ofColor::red;
+    cloudCol = ofColor::yellow;
+    circhistCol = ofColor::black;
+    backCol = ofColor::blue;
+
     ofPoint micCenter1(400,400);
     ofPoint micCenter2(400+400,400);
     int pNum = 70;
@@ -31,6 +37,7 @@ void testApp::setup(){
 
     drawGui = 1; //default;
     drawPath = 0; //default;
+    bFullscreen = 0; //default;
 
     ofSetFrameRate(60);
     ofEnableSmoothing();
@@ -38,7 +45,7 @@ void testApp::setup(){
 
 
     /*set up microphone 1*/
-    m1.initCloud(micCenter1, pNum, hist2Radius);
+    m1.initCloud(micCenter1, pNum, hist2Radius, micCol, cloudCol, circhistCol);
     vector<ofPoint> cPath1;
     cPath1.push_back(ofPoint(300,500));
     cPath1.push_back(ofPoint(300,300));
@@ -49,7 +56,7 @@ void testApp::setup(){
     m1.setupHistMesh(histMinR);
 
     /*set up microphone 2*/
-    m2.initCloud(micCenter2, pNum, hist2Radius);
+    m2.initCloud(micCenter2, pNum, hist2Radius, micCol, cloudCol, circhistCol);
     vector<ofPoint> cPath2;
     cPath2.push_back(ofPoint(400+300,500));
     cPath2.push_back(ofPoint(400+300,300));
@@ -100,7 +107,7 @@ void testApp::update(){
 //--------------------------------------------------------------
 void testApp::draw(){
 
-    ofBackground(ofColor::blue);
+    ofBackground(backCol);
     //ofBackgroundGradient(ofColor::white, ofColor::gray);
 
     if (drawPath){
@@ -137,20 +144,28 @@ void testApp::draw(){
 void testApp::keyPressed(int key){
 
     if (key=='g'){
-        if (drawGui){
-            drawGui = 0;
-        }else{
-            drawGui = 1;
-        }
+        drawGui = !drawGui;
     }
 
     if (key=='p'){
-        if (drawPath){
-            drawPath = 0;
-        }else{
-            drawPath = 1;
-        }
+        drawPath = !drawPath;
     }
+
+    if(key == 'f'){
+		bFullscreen = !bFullscreen;
+
+		if(!bFullscreen){
+			ofSetWindowShape(300,300);
+			ofSetWindowShape(1024,786);
+			ofSetFullscreen(false);
+			// figure out how to put the window in the center:
+			int screenW = ofGetScreenWidth();
+			int screenH = ofGetScreenHeight();
+			ofSetWindowPosition(screenW/2-1024/2, screenH/2-786/2);
+		} else if(bFullscreen == 1){
+			ofSetFullscreen(true);
+		}
+	}
 
 }
 

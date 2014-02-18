@@ -5,7 +5,7 @@ locCloud::locCloud()
     //ctor
 }
 
-void locCloud::initCloud(ofPoint micpos, int num, float hist2rFac)
+void locCloud::initCloud(ofPoint micpos, int num, float hist2rFac, ofColor micCol, ofColor cloudCol, ofColor circhistCol)
 {
 
     micPosition.set(micpos);
@@ -17,6 +17,9 @@ void locCloud::initCloud(ofPoint micpos, int num, float hist2rFac)
     particles.resize(numParticles);
     doaHist.resize(numParticles);
 
+    micColor = micCol;
+    cloudColor = cloudCol;
+    circhistColor = circhistCol;
 
 }
 
@@ -50,7 +53,7 @@ void locCloud::drawPath()
 
 void locCloud::drawMic()
 {
-    ofSetColor(255,0,0);
+    ofSetColor(micColor);
     ofFill();
     ofCircle(micPosition,10);
 }
@@ -112,6 +115,7 @@ void locCloud::updateParticleProperties(int numBuddies, float buddyDist, float b
         particles[i].buddyDistance = buddyDist;
         particles[i].noiseAmount = noiseAmount;
         particles[i].noiseStep = noiseStep;
+        particles[i].color = cloudColor;
     }
 
 

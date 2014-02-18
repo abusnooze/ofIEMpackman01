@@ -10,7 +10,7 @@ class locCloud
         locCloud();
 
         //Methods
-        void initCloud(ofPoint micpos, int num, float hist2rFac);
+        void initCloud(ofPoint micpos, int num, float hist2rFac, ofColor micCol, ofColor cloudCol, ofColor circhistCol);
         void calcParticlePositions(int, float, float);
         void setCloudPath(vector<ofPoint>);
         void drawPath();
@@ -37,6 +37,9 @@ class locCloud
         ofMesh histMesh;
         float histogramMinRadius;
 
+        ofColor micColor;
+        ofColor cloudColor;
+        ofColor circhistColor;
 };
 
 #endif // LOCCLOUD_H

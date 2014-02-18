@@ -41,8 +41,11 @@ class testApp : public ofBaseApp{
 
         locCloud m1,m2; //I should use a vector of locCloud objects but I'll leave this for now;
 
-        int drawGui;
-        int drawPath;
+        bool drawGui;
+        bool drawPath;
+        bool bFullscreen;
+
+        ofColor micCol, cloudCol, circhistCol, backCol;
 
 
 };
